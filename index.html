@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BX Products — Brands that make things</title>
+  <link rel="icon" href="logo-bx-badge.jpg" type="image/jpeg" />
+  <meta name="description" content="BX Products is the Australian company behind Range Ready, Mastercraft Works, and more." />
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a222c;
+      --surface-2: #243040;
+      --text: #f2f4f7;
+      --muted: #a8b3c2;
+      --accent: #3d9cf0;
+      --accent-soft: rgba(61, 156, 240, 0.15);
+      --border: rgba(255, 255, 255, 0.08);
+      --radius: 14px;
+      --max: 1080px;
+      --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { width: min(100% - 2.5rem, var(--max)); margin-inline: auto; }
+    .need-input {
+      display: inline;
+      background: #5c4810;
+      color: #ffe8a3;
+      padding: 0.1em 0.4em;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+    header.nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      background: rgba(15, 20, 25, 0.85);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+      gap: 1rem;
+    }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.1rem;
+    }
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .logo:hover { text-decoration: none; color: var(--accent); }
+    .nav-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+    .nav-links a { color: var(--muted); font-size: 0.95rem; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    .hero {
+      padding: 4.5rem 0 3.5rem;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 0%, rgba(61, 156, 240, 0.18), transparent 55%),
+        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(80, 200, 160, 0.08), transparent 50%);
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      max-width: 16ch;
+      margin-bottom: 1rem;
+    }
+    .hero .lede {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 42ch;
+      margin-bottom: 2.5rem;
+    }
+    .brand-tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+    .tile {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.35rem 1.25rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color 0.15s, transform 0.15s, background 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      min-height: 110px;
+    }
+    .tile:hover {
+      border-color: var(--accent);
+      background: var(--surface-2);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .tile .name { font-weight: 700; font-size: 1.05rem; }
+    .tile .tag { color: var(--muted); font-size: 0.88rem; }
+    .tile .arrow { margin-top: auto; color: var(--accent); font-size: 0.9rem; }
+    .tile.placeholder {
+      border-style: dashed;
+      opacity: 0.85;
+    }
+
+    section { padding: 3.5rem 0; }
+    section + section { border-top: 1px solid var(--border); }
+    .section-label {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    h2 {
+      font-size: clamp(1.6rem, 3vw, 2rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    .prose { color: var(--muted); max-width: 58ch; }
+    .prose p + p { margin-top: 0.85rem; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .card h3 { font-size: 1.2rem; }
+    .card .pos { color: var(--muted); font-size: 0.95rem; flex: 1; }
+    .card .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 0.5rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      align-items: start;
+    }
+    @media (max-width: 720px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+    .contact-meta { color: var(--muted); }
+    .contact-meta a { font-weight: 600; }
+    form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: grid;
+      gap: 1rem;
+    }
+    label {
+      display: grid;
+      gap: 0.35rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    input, textarea {
+      font: inherit;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.7rem 0.85rem;
+    }
+    input:focus, textarea:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+    button[type="submit"] {
+      font: inherit;
+      font-weight: 600;
+      background: var(--accent);
+      color: #061018;
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.2rem;
+      cursor: pointer;
+      justify-self: start;
+    }
+    button[type="submit"]:hover { filter: brightness(1.08); }
+    .form-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0 2.5rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    footer .foot-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    footer .legal { max-width: 48ch; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="logo" href="#top"><img class="logo-mark" src="logo-bx-badge.jpg" width="36" height="36" alt="BX Products" />BX Products</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#brands">Brands</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <h1>BX Products</h1>
+        <p class="lede">
+          An Australian company behind practical specialty brands — starting with Range Ready for the shooting sports community.
+        </p>
+        <div class="brand-tiles" aria-label="Our brands">
+          <a class="tile" href="https://www.rangeready.com.au/" rel="noopener">
+            <span class="name">Range Ready</span>
+            <span class="tag">Shooting sports gear</span>
+            <span class="arrow">Visit →</span>
+          </a>
+          <div class="tile placeholder" id="mastercraft-tile" aria-label="Mastercraft Works coming soon">
+            <span class="name">Mastercraft Works</span>
+            <span class="tag">Coming soon</span>
+            <span class="arrow">Stay tuned</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap">
+        <p class="section-label">About</p>
+        <h2>One company. Several brands.</h2>
+        <div class="prose">
+          <p>
+            BX Products is a registered Australian company that owns and operates specialty brands.
+            Each brand has its own name and website, but they all sit under the same company ABN.
+          </p>
+          <p>
+            The idea is simple: give each hobby stream its own face for customers, while keeping
+            accounting, GST, and legal responsibility in one place.
+          </p>
+          <p>
+            Range Ready is operated as BX Products trading as Range Ready.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="brands">
+      <div class="wrap">
+        <p class="section-label">The brands</p>
+        <h2>What each brand does</h2>
+        <div class="cards">
+          <article class="card" id="range-ready">
+            <h3>Range Ready</h3>
+            <p class="pos">
+              Custom products for target and general shooting sports — including .22 cal ammo boxes and air-pellet safety boxes. Tagline: Where You Find Your Edge.
+            </p>
+            <a class="cta" href="https://www.rangeready.com.au/" rel="noopener">
+              Go to Range Ready →
+            </a>
+          </article>
+          <article class="card" id="mastercraft">
+            <h3>Mastercraft Works</h3>
+            <p class="pos">
+              A new specialty brand under BX Products. Details and storefront coming soon.
+            </p>
+            <span class="cta" style="color: var(--muted);">Coming soon</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <p class="section-label">Contact</p>
+        <h2>Get in touch</h2>
+        <div class="contact-grid">
+          <div class="contact-meta">
+            <p>
+              Email:
+              <a href="mailto:birger@bx-products.com">birger@bx-products.com</a>
+            </p>
+            <p style="margin-top: 1rem;">
+              Prefer a form? Use the box on the right. This draft does not send mail yet;
+              wire it to your host or a form service when you go live.
+            </p>
+          </div>
+          <form action="#" method="post" onsubmit="event.preventDefault(); alert('Draft only — form is not connected yet.');">
+            <label>
+              Name
+              <input type="text" name="name" autocomplete="name" required />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label>
+              Message
+              <textarea name="message" rows="4" required></textarea>
+            </label>
+            <button type="submit">Send message</button>
+            <p class="form-note">Placeholder form — not wired to a backend.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot-inner">
+      <div class="legal">
+        <p><strong>BX Products Pty Ltd ATF BX Products Trust</strong></p>
+        <p style="margin-top: 0.4rem;">
+          ABN: 26 486 245 507
+        </p>
+        <p style="margin-top: 0.85rem;">
+          Privacy: we only use contact details to reply to your enquiry.
+        </p>
+      </div>
+      <p>© <span id="y"></span> BX Products. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
