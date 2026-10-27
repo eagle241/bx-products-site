@@ -186,6 +186,7 @@
     .contact-meta { color: var(--muted); }
     .contact-meta a { font-weight: 600; }
     form {
+      position: relative;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -223,9 +224,46 @@
       justify-self: start;
     }
     button[type="submit"]:hover { filter: brightness(1.08); }
-    .form-note {
-      font-size: 0.8rem;
-      color: var(--muted);
+    .form-success:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .form-success {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      gap: 0.75rem;
+    }
+    .form-success:target { display: grid; }
+    .form-success:target + form { display: none; }
+    .form-success strong { color: var(--text); font-size: 1.05rem; }
+    .form-success p { color: var(--muted); }
+    .form-success a.again {
+      justify-self: start;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.55rem 0.9rem;
+    }
+    .form-success a.again:hover {
+      text-decoration: none;
+      border-color: var(--accent);
+    }
+    .hp {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
     }
 
     footer {
@@ -334,26 +372,40 @@
               <a href="mailto:birger@bx-products.com">birger@bx-products.com</a>
             </p>
             <p style="margin-top: 1rem;">
-              Prefer a form? Use the box on the right. This draft does not send mail yet;
-              wire it to your host or a form service when you go live.
+              Or use the form. Messages are emailed to the address above.
             </p>
           </div>
-          <form action="#" method="post" onsubmit="event.preventDefault(); alert('Draft only — form is not connected yet.');">
-            <label>
-              Name
-              <input type="text" name="name" autocomplete="name" required />
-            </label>
-            <label>
-              Email
-              <input type="email" name="email" autocomplete="email" required />
-            </label>
-            <label>
-              Message
-              <textarea name="message" rows="4" required></textarea>
-            </label>
-            <button type="submit">Send message</button>
-            <p class="form-note">Placeholder form — not wired to a backend.</p>
-          </form>
+          <div class="contact-form-wrap">
+            <div id="thanks" class="form-success" role="status" tabindex="-1">
+              <p><strong>Thanks, your message has been sent.</strong></p>
+              <p>We'll reply to the email address you entered.</p>
+              <a class="again" href="#contact">Send another message</a>
+            </div>
+            <form
+              id="contact-form"
+              action="https://formsubmit.co/birger@bx-products.com"
+              method="POST"
+            >
+              <input type="hidden" name="_subject" value="BX Products website enquiry" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_next" value="https://bx-products.com/?sent=1#thanks" />
+              <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+              <label>
+                Name
+                <input type="text" name="name" autocomplete="name" required />
+              </label>
+              <label>
+                Email
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+              <label>
+                Message
+                <textarea name="message" rows="4" required></textarea>
+              </label>
+              <button type="submit">Send message</button>
+            </form>
+          </div>
         </div>
       </div>
     </section>
@@ -367,7 +419,7 @@
           ABN: 26 486 245 507
         </p>
         <p style="margin-top: 0.85rem;">
-          Privacy: we only use contact details to reply to your enquiry.
+          Privacy: we only use contact details to reply to your enquiry. The form delivers them by email through FormSubmit.
         </p>
       </div>
       <p>© <span id="y"></span> BX Products. All rights reserved.</p>
@@ -375,6 +427,49 @@
   </footer>
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
+
+    var contactForm = document.getElementById("contact-form");
+    if (contactForm) {
+      var nextField = contactForm.querySelector('input[name="_next"]');
+      if (nextField) {
+        nextField.value = location.origin + location.pathname + "?sent=1#thanks";
+      }
+      contactForm.addEventListener("submit", function () {
+        var nameField = contactForm.querySelector('input[name="name"]');
+        var emailField = contactForm.querySelector('input[name="email"]');
+        var subjectField = contactForm.querySelector('input[name="_subject"]');
+        var name = nameField ? nameField.value.trim() : "";
+        var email = emailField ? emailField.value.trim() : "";
+        name = name.replace(/[\r\n]+/g, " ").replace(/\s+/g, " ").slice(0, 80);
+        if (subjectField && name) subjectField.value = "BX Products enquiry from " + name;
+        if (email && !contactForm.querySelector('input[name="_replyto"]')) {
+          var replyField = document.createElement("input");
+          replyField.type = "hidden";
+          replyField.name = "_replyto";
+          replyField.value = email;
+          contactForm.appendChild(replyField);
+        }
+      });
+    }
+
+    var again = document.querySelector("#thanks a.again");
+    if (again) {
+      again.addEventListener("click", function (event) {
+        if (new URLSearchParams(location.search).get("sent") !== "1") return;
+        event.preventDefault();
+        var params = new URLSearchParams(location.search);
+        params.delete("sent");
+        var query = params.toString();
+        location.replace(location.pathname + (query ? "?" + query : "") + "#contact");
+      });
+    }
+
+    var sent = new URLSearchParams(location.search).get("sent") === "1";
+    if (sent && location.hash !== "#thanks") location.hash = "thanks";
+    if (sent || location.hash === "#thanks") {
+      var thanks = document.getElementById("thanks");
+      if (thanks) thanks.focus();
+    }
   </script>
 </body>
 </html>
