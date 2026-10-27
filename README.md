@@ -13,4 +13,4 @@ The form posts to [FormSubmit](https://formsubmit.co/birger@bx-products.com) and
 
 After a successful send, FormSubmit redirects back to this page (`?sent=1#thanks`), which shows a thank-you message.
 
-**One-time activation (required before mail is delivered):** the first submission emails birger@bx-products.com an “Activate Form” link from FormSubmit. Open that email and click the link once. Until then, FormSubmit does not forward messages, and the sender sees FormSubmit’s activation page instead of the thank-you. No access key is required. ReCAPTCHA stays on (FormSubmit’s default) so the inbox is less likely to be rate-limited; a hidden honeypot field is also included.
+FormSubmit’s one-time activation for birger@bx-products.com is done. No access key is required. reCAPTCHA is turned off so a visitor returns straight to the thank-you message; a hidden honeypot field is included.
