@@ -146,6 +146,11 @@
     }
     .prose { color: var(--muted); max-width: 58ch; }
     .prose p + p { margin-top: 0.85rem; }
+    .prose ul {
+      margin-top: 0.85rem;
+      padding-left: 1.25rem;
+    }
+    .prose li + li { margin-top: 0.35rem; }
 
     .cards {
       display: grid;
@@ -285,15 +290,13 @@
         <div class="prose">
           <p>
             BX Products is a registered Australian company that owns and operates specialty brands.
-            Each brand has its own name and website, but they all sit under the same company ABN.
+            Each brand has its own name and website, and they all sit under the same company.
           </p>
-          <p>
-            The idea is simple: give each hobby stream its own face for customers, while keeping
-            accounting, GST, and legal responsibility in one place.
-          </p>
-          <p>
-            Range Ready is operated as BX Products trading as Range Ready.
-          </p>
+          <p>We build practical products for people who take their hobbies seriously:</p>
+          <ul>
+            <li>Range Ready — gear for the shooting sports community</li>
+            <li>Mastercraft Works — handcrafted woodworking products</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -315,7 +318,7 @@
           <article class="card" id="mastercraft">
             <h3>Mastercraft Works</h3>
             <p class="pos">
-              A new specialty brand under BX Products. Details and storefront coming soon.
+              Handcrafted woodworking products.
             </p>
             <span class="cta" style="color: var(--muted);">Coming soon</span>
           </article>
